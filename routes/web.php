@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth'], function () {        // ログインし�
     Route::resource('/users', UsersController::class, ['only' => ['index', 'show', 'edit', 'update']]); //only内のメソッドのみを使う
 
     // フォロー/フォロー解除を追加
-    Route::post('users/{user}/follow', [UsersController::class, 'follow'])->name('follow');
-    Route::delete('users/{user}/unfollow', [UsersController::class, 'unfollow'])->name('unfollow');
+    Route::post('/users/{user}/follow', [UsersController::class, 'follow'])->name('follow');
+    Route::delete('/users/{user}/unfollow', [UsersController::class, 'unfollow'])->name('unfollow');
+
+    Route::post('/users/{id}/', [UsersController::class, 'show'])->name('show');
 });
