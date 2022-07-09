@@ -87,4 +87,28 @@ class User extends Authenticatable
     {
         return (boolean) $this->followers()->where('following_id', $user_id)->first(['id']); //上のofollowersメソッドによりリレーションしているため、フォローしている人の中でIDと引数で渡ってきたIDが一致するものがあればとってくる
     }
+
+    public function updateProfile(Array $params)
+    {
+        if (isset($params['profile_image'])) {     //paramsの中に画像があれば処理を分ける
+            $file_name = $params['profile_image']->store('public/profile_image/');
+
+            $this::where('id', $this->id)
+                ->update([
+                    'screen_name'   => $params['screen_name'],
+                    'name'          => $params['name'],
+                    'profile_image' => basename($file_name),
+                    'email'         => $params['email'],
+                ]);
+        } else {
+            $this::where('id', $this->id)
+                ->update([
+                    'screen_name'   => $params['screen_name'],
+                    'name'          => $params['name'],
+                    'email'         => $params['email'],
+                ]); 
+        }
+
+        return;
+    }
 }
