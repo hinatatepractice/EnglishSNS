@@ -7,5 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tweet extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;  //論理削除のためSoftDeletesを追加
+
+    protected $fillable = [
+        'text'
+    ];
+
+    //リレーション
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

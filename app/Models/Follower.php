@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Follower extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = [   //内部認識用に主キー名を設定
+        'following_id',    
+        'followed_id'
+    ];
+    protected $fillable = [
+        'following_id',
+        'followed_id'
+    ];
+
+    public $timestamps = false;     
+    public $incrementing = false;   
 }
