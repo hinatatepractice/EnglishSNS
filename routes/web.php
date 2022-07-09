@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => 'auth'], function () {        //ログインしている状態でないと以下ルーティングはできない
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    //ユーザー関連  //make:Controller --resource で作成したコントローラのCRUD処理へ一括でルーティング
+    // Route::resource('/users', UsersController::class);
+    Route::resource('/users', UsersController::class, ['only' => ['index', 'show', 'edit', 'update']]); //only内のメソッドのみを使う
+
+    // フォロー/フォロー解除を追加
+    Route::post('users/{user_id}/follow', [UsersController::class, 'follow'])->name('follow');
+    Route::delete('users/{user_id}/unfollow', [UsersController::class, 'unfollow'])->name('unfollow');
+});
