@@ -64,7 +64,7 @@ class User extends Authenticatable
     /* フォロー関係のメソッド */
 
     // フォローする
-    public function follow(Int $user_id) 
+    public function follow(Int $user_id)
     {
         return $this->follows()->attach($user_id);
     }
@@ -75,15 +75,16 @@ class User extends Authenticatable
         return $this->follows()->detach($user_id);
     }
 
-    // フォローしているか
-    public function isFollowing(Int $user_id) 
+    // フォローしているかどうか判定
+    public function isFollowing(Int $user_id)
     {
-        return (boolean) $this->follows()->where('followed_id', $user_id)->first(['id']);
+        // dd($this); <- $thisで「フォローする/フォローを解除する」ボタンが押された対象のuser情報を取得 <- $user_idで判別
+        return (boolean) $this->follows()->where('followed_id', $user_id)->first(['id']); //上のfollowsメソッドによりリレーションしているため、フォローしている人の中でIDと引数で渡ってきたIDが一致するものがあればとってこれたらTrueを返す
     }
 
-    // フォローされているか
-    public function isFollowed(Int $user_id) 
+    // フォローされているかどうか判定
+    public function isFollowed(Int $user_id)
     {
-        return (boolean) $this->followers()->where('following_id', $user_id)->first(['id']);
+        return (boolean) $this->followers()->where('following_id', $user_id)->first(['id']); //上のofollowersメソッドによりリレーションしているため、フォローしている人の中でIDと引数で渡ってきたIDが一致するものがあればとってくる
     }
 }

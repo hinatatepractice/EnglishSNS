@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="my-4 d-flex justify-content-center">
-            {{ $all_users->links() }}  <!-- 結果セットの残りのページへのリンクをレンダー -->
+            {{ $all_users->links() }}  <!-- ぺジネーション -->
         </div>
     </div>
 @endsection

@@ -91,28 +91,30 @@ class UsersController extends Controller
     }
 
     // フォローする機能
-    public function follow(User $user)
+    public function follow(User $user)   //引数の$userは「フォローする」ボタンを押されたユーザーの情報<-どのユーザーの「フォローする」ボタンが押されたか判別するため 
     {
-        $follower = auth()->user();
-        // dd($login_user);
+        $following_user = \Auth::user(); //現在ログインしているユーザーを取得(これからフォロー「する」側のユーザー)
         // フォローしているか
-        $is_following = $user->isFollowing($user->id);    // $is_followingでtrueかfalseを返す
+        $is_following = $user->isFollowing($user->id);    // $userは引数で渡ってきたuserのID($is_followingでtrueかfalseを返す)　<- フォローいていればTrue, フォローしていなければFalse
+        // dd($is_following);
         if(!$is_following) {
             // フォローしていなければフォローする
-            $follower->follow($user->id);
+            $following_user->follow($user->id);
             return back();
         }
     }
 
     // フォロー解除
-    public function unfollow(User $user)   //引数の$userはURLのindex番号<-どのユーザーの「フォローする」ボタンが押されたか判別するため 
+    public function unfollow(User $user)   //引数の$userは「フォローする」ボタンを押されたユーザーの情報<-どのユーザーの「フォローする」ボタンが押されたか判別するため 
     {
-        $follower = \Auth::user();
+        // dd($user);
+        $following_user = \Auth::user(); //現在ログインしているユーザーを取得(今相手をフォロー「している」側のユーザー)
         // フォローしているか
-        $is_following = $follower->isFollowing($user->id);   // $is_followingでtrueかfalseを返す
+        $is_following = $following_user->isFollowing($user->id);   // $userは引数で渡ってきたuserのID($is_followingでtrueかfalseを返す) <- フォローいていればTrue, フォローしていなければFalse
+        // dd($is_following);
         if($is_following) {
             // フォローしていればフォローを解除する
-            $follower->unfollow($user->id);
+            $following_user->unfollow($user->id);
             return back();
         }
     }
