@@ -95,7 +95,7 @@ class UsersController extends Controller
     {
         $following_user = \Auth::user(); //現在ログインしているユーザーを取得(これからフォロー「する」側のユーザー)
         // フォローしているか
-        $is_following = $user->isFollowing($user->id);    // $userは引数で渡ってきたuserのID($is_followingでtrueかfalseを返す)　<- フォローいていればTrue, フォローしていなければFalse
+        $is_following = $following_user->isFollowing($user->id);    // $userは引数で渡ってきたuserのID($is_followingでtrueかfalseを返す)　<- フォローいていればTrue, フォローしていなければFalse
         // dd($is_following);
         if(!$is_following) {
             // フォローしていなければフォローする
