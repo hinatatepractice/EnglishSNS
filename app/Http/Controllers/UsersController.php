@@ -18,7 +18,8 @@ class UsersController extends Controller
      */
     public function index(User $user)
     {
-        $all_users = $user->getAllUsers(auth()->user()->id);  //UserモデルのインスタンスからgetAllUsers()を呼び出す
+        $login_user = \Auth::user(); // ログインしているユーザーの情報を取得
+        $all_users = $user->getAllUsers($login_user->id);  // UserモデルのインスタンスからgetAllUsers()を呼び出す(引数にログインしているユーザーのID) <- ログインしているユーザー(本人)は一覧に載せないため
 
         return view('users.index', compact('all_users'));
     }
@@ -93,8 +94,9 @@ class UsersController extends Controller
     public function follow(User $user)
     {
         $follower = auth()->user();
+        // dd($login_user);
         // フォローしているか
-        $is_following = $follower->isFollowing($user->id);    //$is_followingでtrueかfalseを返す
+        $is_following = $user->isFollowing($user->id);    // $is_followingでtrueかfalseを返す
         if(!$is_following) {
             // フォローしていなければフォローする
             $follower->follow($user->id);
@@ -103,11 +105,11 @@ class UsersController extends Controller
     }
 
     // フォロー解除
-    public function unfollow(User $user)
+    public function unfollow(User $user)   //引数の$userはURLのindex番号<-どのユーザーの「フォローする」ボタンが押されたか判別するため 
     {
-        $follower = auth()->user();
+        $follower = \Auth::user();
         // フォローしているか
-        $is_following = $follower->isFollowing($user->id);   ////$is_followingでtrueかfalseを返す
+        $is_following = $follower->isFollowing($user->id);   // $is_followingでtrueかfalseを返す
         if($is_following) {
             // フォローしていればフォローを解除する
             $follower->unfollow($user->id);

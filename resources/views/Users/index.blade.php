@@ -19,14 +19,14 @@
                             @endif
                             <div class="d-flex justify-content-end flex-grow-1">
                                 @if (auth()->user()->isFollowing($user->id))
-                                    <form action="{{ route('unfollow', ['user_id' => $user->id]) }}" method="POST">
+                                    <form action="{{ route('unfollow', ['user' => $user->id]) }}" method="POST">
                                         @csrf
                                         {{ method_field('DELETE') }}
 
                                         <button type="submit" class="btn btn-danger">フォロー解除</button>
                                     </form>
                                 @else
-                                    <form action="{{ route('follow', ['user_id' => $user->id]) }}" method="POST">
+                                    <form action="{{ route('follow', ['user' => $user->id]) }}" method="POST">
                                         @csrf
 
                                         <button type="submit" class="btn btn-primary">フォローする</button>
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="my-4 d-flex justify-content-center">
-            {{ $all_users->links() }}
+            {{ $all_users->links() }}  <!-- 結果セットの残りのページへのリンクをレンダー -->
         </div>
     </div>
 @endsection
