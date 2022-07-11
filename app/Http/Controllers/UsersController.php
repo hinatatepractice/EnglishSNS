@@ -118,7 +118,7 @@ class UsersController extends Controller
     }
 
     // フォローする機能
-    public function follow(User $user)   //引数の$userは「フォローする」ボタンを押されたユーザーの情報<-どのユーザーの「フォローする」ボタンが押されたか判別するため 
+    public function follow(User $user)   //引数の$userは「フォローする」ボタンを押されたユーザーの情報<-どのユーザーの「フォローする」ボタンが押されたか判別
     {
         $following_user = \Auth::user(); //現在ログインしているユーザーを取得(これからフォロー「する」側のユーザー)
         // フォローしているか

@@ -26,10 +26,12 @@ Route::group(['middleware' => 'auth'], function () {        // ログインし�
     // ユーザー関連  //make:Controller --resource で作成したコントローラのCRUD処理へ一括でルーティング
     // Route::resource('/users', UsersController::class);
     Route::resource('/users', UsersController::class, ['only' => ['index', 'show', 'edit', 'update']]); //only内のメソッドのみを使う
-
     // フォロー/フォロー解除を追加
     Route::post('/users/{user}/follow', [UsersController::class, 'follow'])->name('follow');
     Route::delete('/users/{user}/unfollow', [UsersController::class, 'unfollow'])->name('unfollow');
-
+    //ユーザー詳細画面遷移
     Route::post('/users/{id}/', [UsersController::class, 'show'])->name('show');
+
+    //ツイート関連
+    Route::resource('tweets', TweetsController::class, ['only' => ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']]);
 });

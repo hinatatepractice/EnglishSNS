@@ -54,7 +54,7 @@
                                 @endif
                             @else
                                 <li class="nav-item">
-                 </li>
+                                    <img src="{{ asset('storage/profile_image/' .auth()->user()->profile_image) }}" class="rounded-circle" width="50" height="50">
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         {{ auth()->user()->name }} <span class="caret"></span>
